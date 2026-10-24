@@ -149,6 +149,27 @@
     "limitations": "Unreviewed candidate; not a security, suitability or license approval."
   },
   {
+    "id": "lovell-sharp",
+    "repository": "lovell/sharp",
+    "url": "https://github.com/lovell/sharp",
+    "name": "sharp",
+    "category": "assets",
+    "tags": [
+      "image",
+      "processing"
+    ],
+    "description": "High performance Node.js image processing, the fastest module to resize JPEG, PNG, WebP, AVIF and TIFF images. Uses the libvips library.",
+    "status": "candidate",
+    "license_spdx": "Apache-2.0",
+    "license_status": "detected",
+    "archived": false,
+    "stars": 32787,
+    "last_checked": "2026-10-24",
+    "pushed_at": "2026-10-23T09:55:05Z",
+    "source": "github-api",
+    "limitations": "Unreviewed candidate; not a security, suitability or license approval."
+  },
+  {
     "id": "tabler-tabler-icons",
     "repository": "tabler/tabler-icons",
     "url": "https://github.com/tabler/tabler-icons",
@@ -468,7 +489,7 @@
     "license_spdx": "MIT",
     "license_status": "detected",
     "archived": false,
-    "stars": 134441,
+    "stars": 134442,
     "last_checked": "2026-10-24",
     "pushed_at": "2026-10-23T15:10:12Z",
     "source": "github-api",
@@ -776,6 +797,27 @@
     "stars": 30930,
     "last_checked": "2026-10-24",
     "pushed_at": "2026-10-24T01:03:01Z",
+    "source": "github-api",
+    "limitations": "Unreviewed candidate; not a security, suitability or license approval."
+  },
+  {
+    "id": "google-osv-scanner",
+    "repository": "google/osv-scanner",
+    "url": "https://github.com/google/osv-scanner",
+    "name": "osv-scanner",
+    "category": "security",
+    "tags": [
+      "vulnerability",
+      "scanning"
+    ],
+    "description": "Vulnerability scanner written in Go which uses the data provided by https://osv.dev",
+    "status": "candidate",
+    "license_spdx": "Apache-2.0",
+    "license_status": "detected",
+    "archived": false,
+    "stars": 11254,
+    "last_checked": "2026-10-24",
+    "pushed_at": "2026-10-23T20:57:55Z",
     "source": "github-api",
     "limitations": "Unreviewed candidate; not a security, suitability or license approval."
   },
