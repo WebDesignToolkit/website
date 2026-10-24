@@ -11,5 +11,5 @@ assert len(ids)==len(set(ids))
 dest=website/"data"/"resources.json"
 dest.parent.mkdir(parents=True,exist_ok=True)
 body=json.dumps(entries,indent=2,ensure_ascii=False)+"\n"
-dest.write_text(body,encoding="utf-8")
+dest.write_bytes(body.encode("utf-8"))
 print(f"Synced {len(entries)} records -> {dest} | sha256={hashlib.sha256(body.encode()).hexdigest()}")
