@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="./assets/editor.css"></head>
 <body>
 <a class="skip" href="#editor">Skip to editor</a>
-<header class="topbar"><a class="brand" href="https://github.com/WebDesignToolkit" rel="noopener"><span class="mark">W.</span> WebDesignToolkit</a><span class="top-label">WEB DESIGN ENGINE <span class="version">v0.1 / DEMO</span></span><a class="top-source" href="https://github.com/WebDesignToolkit/web-design-engine">Source ↗</a></header>
+<header class="topbar"><a class="brand" href="https://github.com/WebDesignToolkit" rel="noopener"><span class="mark">W.</span> WebDesignToolkit</a><span class="top-label">WEB DESIGN ENGINE <span class="version">v0.2 / DEMO</span></span><a class="top-source" href="https://github.com/WebDesignToolkit/web-design-engine">Source ↗</a></header>
 <main>
 <div class="intro"><div><p class="eyebrow">A BETTER WAY TO MAKE WEBSITE DEMOS</p><h1>From brief<br>to <mark>website.</mark></h1><p>One client brief. Four pages. Flexible components, themes and layouts. Preview first, export when ready.</p></div><div class="privacy"><strong><span aria-hidden="true">◈</span> LOCAL-FIRST</strong><p>Information stays inside your browser. Nothing is sent to an external service by this tool.</p></div></div>
 <div class="workbench" id="editor">
@@ -14,6 +14,15 @@
 <div class="panel-head"><div><span class="eyebrow">STEP 01 / CONFIGURE</span><h2 id="editor-heading">Website brief</h2></div><span class="pill">Editable</span></div>
 <div class="tabbar" role="group" aria-label="Editor tab"><button type="button" class="tab is-active" data-tab="brief" aria-pressed="true">Client brief</button><button type="button" class="tab" data-tab="theme" aria-pressed="false">Design</button><button type="button" class="tab" data-tab="pages" aria-pressed="false">Pages & sections</button></div>
 <div class="tabcontent" data-panel="brief">
+<div class="recipe-panel">
+ <p class="eyebrow">FIRST / SELECT A BUSINESS & DESIGN</p>
+ <div class="field"><label for="category">Business category</label><select id="category" aria-describedby="category-help"></select></div>
+ <p id="category-help" class="helper">Choose a category. Your existing business details stay unchanged.</p>
+ <div class="field"><label for="layout-template">Website layout template</label><select id="layout-template" aria-describedby="template-info"></select></div>
+ <p id="template-info" class="helper">Choose a complete multi-page layout recipe.</p>
+ <button type="button" id="example-content" class="small-btn">Fill fictional example for this category</button>
+ <p class="helper">Selecting a layout rearranges the sections on all four pages. Text entered below is preserved. Save your brief first if you've customized the section order.</p>
+</div>
 <div class="field"><label for="business-name">Business name</label><input id="business-name" data-biz="name" maxlength="80" placeholder="Example Studio"></div>
 <div class="field"><label for="industry">Industry / business type</label><input id="industry" data-biz="industry" list="industry-presets" maxlength="80" placeholder="e.g. Dental clinic"><datalist id="industry-presets"><option value="Creative studio"><option value="Local services"><option value="Consulting"><option value="Technology"><option value="Healthcare services"><option value="Education"><option value="Retail"></datalist></div>
 <div class="field"><label for="tagline">Main headline</label><input id="tagline" data-biz="tagline" maxlength="130"></div>
@@ -25,10 +34,12 @@
 <div class="field"><label for="cta">Primary action label</label><input id="cta" data-biz="cta"></div>
 </div>
 <div class="tabcontent" data-panel="theme" hidden>
+<div class="field"><label for="palette">Brand color palette</label><select id="palette"></select><div id="palette-preview" class="palette-preview" aria-hidden="true"></div><p class="helper">Palettes change colors, independently of the layout and design style.</p></div>
 <p class="helper">Switch any theme, then customize semantic color tokens for all generated pages.</p>
 <div class="field"><label for="preset">Theme preset</label><select id="preset" data-design="preset"><option value="hardline">Hardline / tactile</option><option value="studio">Studio / refined</option><option value="calm">Calm / editorial</option></select></div>
 <div class="swatches"><div class="field"><label for="accent">Accent</label><input id="accent" data-color="accent" type="color"></div><div class="field"><label for="background">Background</label><input id="background" data-color="bg" type="color"></div><div class="field"><label for="ink">Text</label><input id="ink" data-color="ink" type="color"></div><div class="field"><label for="surface">Card surface</label><input id="surface" data-color="surface" type="color"></div></div>
 <div class="form-row"><div class="field"><label for="font">Typography</label><select id="font" data-design="font"><option value="system">Modern sans-serif</option><option value="serif">Editorial serif</option><option value="mono">Technical monospace</option></select></div><div class="field"><label for="density">Density</label><select id="density" data-design="density"><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="spacious">Spacious</option></select></div></div>
+<div class="field"><label for="heading-font">Heading typography</label><select id="heading-font" data-design="headingFont"><option value="system">Modern sans</option><option value="serif">Editorial serif</option><option value="humanist">Humanist</option><option value="display">Bold display</option><option value="mono">Monospace</option></select></div>
 <div class="field"><label for="radius">Corner radius <span id="radius-label"></span></label><input id="radius" data-design="radius" type="range" min="0" max="24" step="2"></div>
 <div class="field"><label class="check"><input id="shadow" data-design="shadow" type="checkbox"> Tactile card and button shadows</label></div>
 </div>
