@@ -1,4 +1,5 @@
 import {defaultProject,normalizeProject,PRESETS,PAGE_DEFS,ADAPTERS,makePreviewDocument,buildSite,zipFiles,VERSION} from "./engine.js";
+import {CATEGORIES,TEMPLATES,PALETTES,composeRecipe,categoryExample} from "./recipes.js";
 const $=id=>document.getElementById(id);
 let project=defaultProject(),page="index",compose="index",foundryCss="",ready=false;
 const setStatus=msg=>$("preview-status").textContent=msg;
@@ -12,7 +13,20 @@ function renderFrame(){
  $("site-frame").srcdoc=makePreviewDocument(sanitized,page,foundryCss);
  setStatus("Preview ready · "+PAGE_DEFS.find(p=>p.slug===page).title);
 }
+function showPalette(){
+ const colors=["accent","bg","surface","ink"];
+ const preview=$("palette-preview");preview.replaceChildren();
+ for(const k of colors){const swatch=document.createElement("span");swatch.style.backgroundColor=project.design[k];preview.append(swatch)}
+}
+function syncRecipeControls(){
+ $("category").value=project.recipe.category;
+ $("layout-template").value=project.recipe.template;
+ $("template-info").textContent=TEMPLATES[project.recipe.template].description;
+ $("palette").value=project.design.palette||"custom";
+ showPalette();
+}
 function syncInputs(){
+ syncRecipeControls();
  for(const el of document.querySelectorAll("[data-biz]"))el.value=project.business[el.dataset.biz]??"";
  for(const el of document.querySelectorAll("[data-list]"))el.value=(project.business[el.dataset.list]||[]).join("\n");
  for(const el of document.querySelectorAll("[data-design]")){
@@ -58,6 +72,45 @@ function switchTab(tab){
  setPressed(".tab","tab",tab);
 }
 for(const button of document.querySelectorAll(".tab"))button.addEventListener("click",()=>switchTab(button.dataset.tab));
+for(const [id,category] of Object.entries(CATEGORIES)){
+ const option=document.createElement("option");option.value=id;option.textContent=category.label;$("category").append(option);
+}
+for(const [id,template] of Object.entries(TEMPLATES)){
+ const option=document.createElement("option");option.value=id;option.textContent=template.icon+" "+template.label;$("layout-template").append(option);
+}
+for(const [id,palette] of Object.entries(PALETTES)){
+ const option=document.createElement("option");option.value=id;option.textContent=palette.label;$("palette").append(option);
+}
+{const option=document.createElement("option");option.value="custom";option.textContent="Custom brand colors";$("palette").append(option)}
+$("category").addEventListener("change",e=>{
+ const category=e.target.value;
+ if(!Object.hasOwn(CATEGORIES,category))return;
+ project.recipe={category,template:"classic"};
+ project.pages=composeRecipe(category,"classic");
+ project.business.industry=CATEGORIES[category].industry;
+ page="index";compose="index";setPressed(".preview-page","page",page);
+ syncInputs();setStatus("Category and layout changed; business details preserved");
+});
+$("layout-template").addEventListener("change",e=>{
+ const template=e.target.value;
+ if(!Object.hasOwn(TEMPLATES,template))return;
+ project.recipe.template=template;
+ project.pages=composeRecipe(project.recipe.category,template);
+ page="index";compose="index";setPressed(".preview-page","page",page);
+ syncInputs();setStatus("New four-page layout applied; business details preserved");
+});
+$("example-content").addEventListener("click",()=>{
+ const name=CATEGORIES[project.recipe.category].label;
+ if(!confirm("Replace the current business example text with fictional sample content for "+name+"?"))return;
+ project.business={...project.business,...categoryExample(project.recipe.category)};
+ syncInputs();setStatus("Fictional sample content added for "+name);
+});
+$("palette").addEventListener("change",e=>{
+ const name=e.target.value;
+ project.design.palette=name;
+ if(name!=="custom" && Object.hasOwn(PALETTES,name))Object.assign(project.design,PALETTES[name]);
+ syncInputs();setStatus("Color palette applied across all pages");
+});
 for(const el of document.querySelectorAll("[data-biz]")){
  el.addEventListener("input",()=>{project.business[el.dataset.biz]=el.value;renderFrame()});
 }
@@ -69,7 +122,8 @@ for(const el of document.querySelectorAll("[data-design]")){
   const key=el.dataset.design;
   if(key==="preset"){
    const chosen=el.value;
-   project.design={...project.design,preset:chosen,...PRESETS[chosen]};
+   project.design={...project.design,preset:chosen,radius:PRESETS[chosen].radius,
+     font:PRESETS[chosen].font,headingFont:PRESETS[chosen].font,shadow:PRESETS[chosen].shadow};
    syncInputs();return;
   }
   project.design[key]=el.type==="checkbox"?el.checked:el.type==="range"?Number(el.value):el.value;
@@ -77,7 +131,8 @@ for(const el of document.querySelectorAll("[data-design]")){
  });
 }
 for(const el of document.querySelectorAll("[data-color]"))el.addEventListener("input",()=>{
- project.design[el.dataset.color]=el.value.toUpperCase();renderFrame();
+ project.design[el.dataset.color]=el.value.toUpperCase();
+ project.design.palette="custom";$("palette").value="custom";showPalette();renderFrame();
 });
 for(const button of document.querySelectorAll(".preview-page"))button.addEventListener("click",()=>{
  page=button.dataset.page;setPressed(".preview-page","page",page);compose=page;$("compose-page").value=page;renderComposer();renderFrame();

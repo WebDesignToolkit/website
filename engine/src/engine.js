@@ -1,5 +1,6 @@
-/* WebDesignToolkit Engine v0.1 | client-only generation; no runtime dependencies. */
-export const VERSION="0.1.0";
+/* WebDesignToolkit Engine v0.2 | local category recipes and customizable design tokens. */
+import {CATEGORIES,TEMPLATES,PALETTES,composeRecipe} from "./recipes.js";
+export const VERSION="0.2.0";
 export const PRESETS={
  hardline:{accent:"#D4FB57",bg:"#FBFAF6",ink:"#17191C",surface:"#FFFFFF",radius:0,font:"system",shadow:true},
  studio:{accent:"#7BE0D2",bg:"#EEF3F5",ink:"#142E42",surface:"#FFFFFF",radius:10,font:"system",shadow:true},
@@ -17,7 +18,9 @@ export const ADAPTERS={
  "WDT-SEC-004":{label:"Final call to action",family:"cta"},
  "WDT-PORT-001":{label:"Portfolio examples",family:"portfolio"},
  "WDT-PRICE-003":{label:"Custom quote section",family:"pricing"},
- "WDT-BOOK-001":{label:"Contact preview (no-send)",family:"contact"}
+ "WDT-BOOK-001":{label:"Contact preview (no-send)",family:"contact"},
+ "WDT-BOOK-002":{label:"Date preference demo (no-send)",family:"contact"},
+ "WDT-PROD-001":{label:"Menu / offering cards",family:"products"}
 };
 const str=(x,n=200)=>String(x??"").trim().slice(0,n);
 const esc=x=>String(x??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
@@ -26,13 +29,9 @@ const array=(x,n=8)=>((Array.isArray(x)?x:String(x??"").split(/[,\n]/))).map(v=>
 export function defaultProject(){return {
  schemaVersion:1,
  business:{name:"Northstar Studio",industry:"Creative studio",tagline:"Better websites. Clearer business.",summary:"We create thoughtful, accessible websites that put people first. Every project begins with your goals.",email:"hello@example.com",phone:"",location:"Your city",cta:"Start a project",services:["Website strategy","Design systems","Responsive development","Site improvement"],benefits:["Clear project milestones","Accessible, useful interfaces","Transparent handoff"]},
- design:{preset:"hardline",...PRESETS.hardline,density:"comfortable"},
- pages:[
- {slug:"index",title:"Home",sections:[{id:"home-hero",componentId:"WDT-HERO-002"},{id:"home-services",componentId:"WDT-SEC-002"},{id:"home-trust",componentId:"WDT-TEST-003"},{id:"home-cta",componentId:"WDT-SEC-004"}]},
- {slug:"about",title:"About",sections:[{id:"about-hero",componentId:"WDT-HERO-001"},{id:"about-process",componentId:"WDT-BLOCK-003"},{id:"about-trust",componentId:"WDT-TEST-003"},{id:"about-cta",componentId:"WDT-SEC-004"}]},
- {slug:"services",title:"Services",sections:[{id:"services-hero",componentId:"WDT-HERO-003"},{id:"services-grid",componentId:"WDT-SEC-002"},{id:"services-price",componentId:"WDT-PRICE-003"},{id:"services-faq",componentId:"WDT-SEC-003"}]},
- {slug:"contact",title:"Contact",sections:[{id:"contact-hero",componentId:"WDT-HERO-001"},{id:"contact-form",componentId:"WDT-BOOK-001"},{id:"contact-faq",componentId:"WDT-SEC-003"}]}
- ]};}
+ design:{preset:"hardline",...PRESETS.hardline,density:"comfortable",palette:"lime",headingFont:"system"},
+ recipe:{category:"agency",template:"classic"},
+ pages:composeRecipe("agency","classic")};}
 export function normalizeProject(raw={}){
  const fallback=defaultProject();const source=raw&&typeof raw==="object"?raw:{};
  const b0=source.business&&typeof source.business==="object"?source.business:{};
@@ -43,8 +42,15 @@ export function normalizeProject(raw={}){
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email))b.email="";
  b.phone=b.phone.replace(/[^\d+(). -]/g,"");
  const d0=source.design&&typeof source.design==="object"?source.design:{};
+ const r0=source.recipe&&typeof source.recipe==="object"?source.recipe:{};
+ const recipe={
+   category:Object.hasOwn(CATEGORIES,r0.category)?r0.category:"agency",
+   template:Object.hasOwn(TEMPLATES,r0.template)?r0.template:"classic"
+ };
  const preset=Object.hasOwn(PRESETS,d0.preset)?d0.preset:"hardline",dBase=PRESETS[preset];
- const d={preset,accent:color(d0.accent,dBase.accent),bg:color(d0.bg,dBase.bg),ink:color(d0.ink,dBase.ink),surface:color(d0.surface,dBase.surface),radius:Math.max(0,Math.min(24,Math.round(Number(d0.radius??dBase.radius)||0))),font:["system","serif","mono"].includes(d0.font)?d0.font:dBase.font,shadow:typeof d0.shadow==="boolean"?d0.shadow:dBase.shadow,density:["compact","comfortable","spacious"].includes(d0.density)?d0.density:"comfortable"};
+ const d={preset,accent:color(d0.accent,dBase.accent),bg:color(d0.bg,dBase.bg),ink:color(d0.ink,dBase.ink),surface:color(d0.surface,dBase.surface),radius:Math.max(0,Math.min(24,Math.round(Number(d0.radius??dBase.radius)||0))),font:["system","serif","mono"].includes(d0.font)?d0.font:dBase.font,shadow:typeof d0.shadow==="boolean"?d0.shadow:dBase.shadow,density:["compact","comfortable","spacious"].includes(d0.density)?d0.density:"comfortable",
+ palette:Object.hasOwn(PALETTES,d0.palette)?d0.palette:"custom",
+ headingFont:["system","serif","mono","humanist","display"].includes(d0.headingFont)?d0.headingFont:(["serif","mono"].includes(d0.font)?d0.font:"system")};
  const rawPages=Array.isArray(source.pages)?source.pages:[];
  const pages=PAGE_DEFS.map(def=>{
    const given=rawPages.find(p=>p?.slug===def.slug),original=fallback.pages.find(p=>p.slug===def.slug);
@@ -58,7 +64,7 @@ export function normalizeProject(raw={}){
    // A blank page is allowed to be edited; avoid assuming hidden defaults.
    return {slug:def.slug,title:def.title,sections};
  });
- return {schemaVersion:1,business:b,design:d,pages};
+ return {schemaVersion:1,recipe,business:b,design:d,pages};
 }
 const purl=slug=>slug==="index"?"index.html":slug+".html";
 const mail=b=>b.email?"mailto:"+encodeURIComponent(b.email)+"?subject="+encodeURIComponent("Website enquiry - "+b.name):"contact.html";
@@ -82,6 +88,8 @@ function adapter(id,b,slug,isFirstHero=true){
  case "WDT-SEC-004":return section(`<div class="wd-stack engine-cta"><p class="wd-eyebrow">Your next project</p><h2>Build something useful.</h2><p>Start with a focused brief and a shared goal.</p>${btn(b,"Get in touch")}</div>`,"wd-section--accent");
  case "WDT-PORT-001":return section(`<div class="wd-section-head"><div><p class="wd-eyebrow">Example projects only</p><h2>Selected ideas</h2></div></div><div class="wd-grid">${["Web experience","Design system","Digital product"].map((s,i)=>`<article class="wd-card"><div class="engine-project">PROJECT 0${i+1}</div><h3>${s}</h3><p>Illustrative case study placeholder, not real client work.</p></article>`).join("")}</div>`);
  case "WDT-PRICE-003":return section(`<div class="engine-two">${heading("Custom proposals","A quote that fits your needs","We discuss scope before prices. No example amount is a binding offer.")}<div class="wd-stack">${details("What affects the proposal?","Requirements, content, integrations, accessibility and timing.")}${btn(b,"Request a quote")}</div></div>`);
+ case "WDT-PROD-001":return section(`<div class="wd-section-head"><div><p class="wd-eyebrow">${esc(slug==="index"?"Explore our offering":"Our selection")}</p><h2>${esc(b.industry==="Restaurant"?"Menu highlights":"Featured offerings")}</h2></div></div><div class="wd-grid">${b.services.map((name,i)=>`<article class="wd-card wd-stack"><div class="engine-project" aria-label="Abstract sample offering" role="img">0${i+1}</div><h3>${esc(name)}</h3><p>Sample item. No verified price, inventory, booking or availability.</p></article>`).join("")}</div>`);
+ case "WDT-BOOK-002":return section(`<div class="engine-two">${heading("Preferred date enquiry","An easy way to get in touch","This is a sample date preference layout, not a reservation. No appointment is requested, stored or confirmed.")}<div class="wd-card wd-stack"><div class="wd-field"><label for="date-preference">Preferred date</label><input id="date-preference" class="wd-input" type="date" disabled></div><button class="wd-button" disabled type="button">Not connected — demo only</button><p class="wd-preview-label">Appointments require an approved scheduling service.</p>${b.email?`<a href="${esc(mail(b))}">Contact by email ↗</a>`:""}</div></div>`);
  case "WDT-BOOK-001":return section(`<div class="engine-two">${heading("Contact preview","Let's talk about your goals","The example form is disabled and does not send, collect or store any information.")}<div class="wd-card wd-stack"><p><strong>Contact email:</strong> ${b.email?`<a href="${esc(mail(b))}">${esc(b.email)}</a>`:"Not provided"}</p><p><strong>Phone:</strong> ${esc(b.phone||"Not provided")}</p><p><strong>Location:</strong> ${esc(b.location)}</p><div class="wd-field"><label for="contact-example">Message</label><textarea id="contact-example" class="wd-input" rows="3" disabled placeholder="Demo only"></textarea></div><button type="button" class="wd-button" disabled>Form disabled in demo</button><p class="wd-preview-label">No booking or message is sent.</p></div></div>`);
  default:return "";
  }
@@ -104,12 +112,12 @@ export function renderPage(raw,slug="index"){
  const fallback=seenHero?"":`<div class="wd-container"><h1 class="engine-page-title">${esc(page.title)}</h1></div>`;
  return `<!doctype html><html lang="en" data-wd-theme="${p.design.preset}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(p.business.summary.slice(0,155))}"><title>${page.title} | ${esc(p.business.name)}</title><link rel="stylesheet" href="assets/foundry.css"><link rel="stylesheet" href="assets/site.css"></head><body id="top">${header(p.business,page.slug)}<main id="main-content">${fallback}${html}</main>${footer(p.business)}</body></html>`;
 }
-const fonts={system:'system-ui,-apple-system,"Segoe UI",sans-serif',serif:'Georgia,"Times New Roman",serif',mono:'ui-monospace,Consolas,monospace'};
+const fonts={humanist:' "Trebuchet MS",Verdana,sans-serif',display:'Impact,"Arial Narrow",sans-serif',system:'system-ui,-apple-system,"Segoe UI",sans-serif',serif:'Georgia,"Times New Roman",serif',mono:'ui-monospace,Consolas,monospace'};
 export function themeCSS(raw){
  const d=normalizeProject(raw).design;const density={compact:".8",comfortable:"1",spacious:"1.2"}[d.density];
  return `/* Generated site colors and layout */
-html[data-wd-theme]{--wd-accent:${d.accent};--wd-bg:${d.bg};--wd-ink:${d.ink};--wd-surface:${d.surface};--wd-radius:${d.radius}px;--wd-shadow:${d.shadow?"4px 4px 0 var(--wd-ink)":"0 0 0 transparent"};--wd-font:${fonts[d.font]};--wd-density:${density}}
-html{background:var(--wd-bg);color:var(--wd-ink)}body{margin:0;font-family:var(--wd-font)}.engine-header{background:var(--wd-surface);border-bottom:var(--wd-line);position:relative;z-index:4}.engine-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1rem}.engine-brand{font-size:1.15rem;font-weight:900;letter-spacing:-.04em;text-decoration:none}.engine-nav{display:flex;gap:1.1rem;flex-wrap:wrap}.engine-nav a,.engine-mobile a{font-size:.86rem;font-weight:750;text-decoration:none}.engine-nav a[aria-current=page]{text-decoration:underline;text-underline-offset:4px}.engine-mobile{display:none;position:relative}.engine-mobile summary{cursor:pointer;padding:.6rem .85rem;border:var(--wd-line);min-height:44px;font-weight:750}.engine-mobile nav{position:absolute;right:0;top:calc(100% + 4px);min-width:175px;padding:1rem;background:var(--wd-surface);border:var(--wd-line);box-shadow:var(--wd-shadow);display:grid;gap:.8rem}.engine-footer{border-top:var(--wd-line);background:var(--wd-surface)}.engine-footer-row{padding-block:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.8rem}.engine-footer nav{display:flex;flex-wrap:wrap;gap:.9rem}.engine-hero{padding-block:calc(clamp(2.5rem,7vw,6rem)*var(--wd-density))}.engine-center{display:grid;justify-items:center;gap:1rem;text-align:center;max-width:790px;margin:auto}.engine-center .wd-actions{justify-content:center}.engine-soft{background:color-mix(in srgb,var(--wd-accent) 16%,var(--wd-bg))}.engine-cta{justify-items:start}.engine-cta h2{font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.05em;line-height:1.1;margin:0}.engine-feature{padding:1.4rem;border:var(--wd-line);background:var(--wd-surface);box-shadow:var(--wd-shadow);display:grid;gap:.9rem}.engine-feature span{border:1px solid var(--wd-muted);padding:.6rem}.engine-project{min-height:140px;background:var(--wd-accent);border:1px solid var(--wd-ink);display:grid;place-items:center;font-weight:900;letter-spacing:-.04em}.engine-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:clamp(1.5rem,5vw,4rem)}.engine-page-title{font-size:clamp(2rem,4vw,3rem)}.wd-disclosure{border:var(--wd-line);background:var(--wd-surface);margin-block:.65rem}.wd-disclosure summary{min-height:44px;padding:1rem;cursor:pointer;font-weight:800}.wd-disclosure p{padding:0 1rem 1rem;margin:0}.wd-section{padding-block:calc(clamp(2.5rem,7vw,6rem)*var(--wd-density))}.wd-section--accent .wd-lead{color:var(--wd-ink)}.wd-card{overflow-wrap:anywhere}
+html[data-wd-theme]{--wd-accent:${d.accent};--wd-bg:${d.bg};--wd-ink:${d.ink};--wd-surface:${d.surface};--wd-radius:${d.radius}px;--wd-shadow:${d.shadow?"4px 4px 0 var(--wd-ink)":"0 0 0 transparent"};--wd-font:${fonts[d.font]};--wd-heading-font:${fonts[d.headingFont]};--wd-density:${density}}
+html{background:var(--wd-bg);color:var(--wd-ink)}:is(h1,h2,h3,.wd-heading){font-family:var(--wd-heading-font);font-weight:800}body{margin:0;font-family:var(--wd-font)}.engine-header{background:var(--wd-surface);border-bottom:var(--wd-line);position:relative;z-index:4}.engine-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1rem}.engine-brand{font-size:1.15rem;font-weight:900;letter-spacing:-.04em;text-decoration:none}.engine-nav{display:flex;gap:1.1rem;flex-wrap:wrap}.engine-nav a,.engine-mobile a{font-size:.86rem;font-weight:750;text-decoration:none}.engine-nav a[aria-current=page]{text-decoration:underline;text-underline-offset:4px}.engine-mobile{display:none;position:relative}.engine-mobile summary{cursor:pointer;padding:.6rem .85rem;border:var(--wd-line);min-height:44px;font-weight:750}.engine-mobile nav{position:absolute;right:0;top:calc(100% + 4px);min-width:175px;padding:1rem;background:var(--wd-surface);border:var(--wd-line);box-shadow:var(--wd-shadow);display:grid;gap:.8rem}.engine-footer{border-top:var(--wd-line);background:var(--wd-surface)}.engine-footer-row{padding-block:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.8rem}.engine-footer nav{display:flex;flex-wrap:wrap;gap:.9rem}.engine-hero{padding-block:calc(clamp(2.5rem,7vw,6rem)*var(--wd-density))}.engine-center{display:grid;justify-items:center;gap:1rem;text-align:center;max-width:790px;margin:auto}.engine-center .wd-actions{justify-content:center}.engine-soft{background:color-mix(in srgb,var(--wd-accent) 16%,var(--wd-bg))}.engine-cta{justify-items:start}.engine-cta h2{font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.05em;line-height:1.1;margin:0}.engine-feature{padding:1.4rem;border:var(--wd-line);background:var(--wd-surface);box-shadow:var(--wd-shadow);display:grid;gap:.9rem}.engine-feature span{border:1px solid var(--wd-muted);padding:.6rem}.engine-project{min-height:140px;background:var(--wd-accent);border:1px solid var(--wd-ink);display:grid;place-items:center;font-weight:900;letter-spacing:-.04em}.engine-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:clamp(1.5rem,5vw,4rem)}.engine-page-title{font-size:clamp(2rem,4vw,3rem)}.wd-disclosure{border:var(--wd-line);background:var(--wd-surface);margin-block:.65rem}.wd-disclosure summary{min-height:44px;padding:1rem;cursor:pointer;font-weight:800}.wd-disclosure p{padding:0 1rem 1rem;margin:0}.wd-section{padding-block:calc(clamp(2.5rem,7vw,6rem)*var(--wd-density))}.wd-section--accent .wd-lead{color:var(--wd-ink)}.wd-card{overflow-wrap:anywhere}
 @media(max-width:720px){.engine-nav{display:none}.engine-mobile{display:block}.engine-two{grid-template-columns:1fr}.wd-hero{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}`;
 }
