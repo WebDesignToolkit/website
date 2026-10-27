@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-27",
+  "description": "Original library items; draft demonstrations only",
+  "items": [
+    {
+      "id": "WDT-COMP-001",
+      "name": "Button",
+      "type": "component",
+      "group": "actions",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "keyboard",
+        "pressed",
+        "disabled"
+      ],
+      "html": "<div class=\"wd-actions\"><button class=\"wd-button wd-button--primary\" type=\"button\">Primary action ↗</button><button class=\"wd-button\" type=\"button\">Secondary</button><button class=\"wd-button\" disabled>Disabled</button></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-COMP-002",
+      "name": "Badge",
+      "type": "component",
+      "group": "status",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "text"
+      ],
+      "html": "<div class=\"wd-actions\"><span class=\"wd-badge\">Available</span><span class=\"wd-badge\">New section</span></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-COMP-003",
+      "name": "Input field",
+      "type": "component",
+      "group": "forms",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "keyboard",
+        "label"
+      ],
+      "html": "<div class=\"wd-field\"><label for=\"wd-demo-email\">Work email</label><input class=\"wd-input\" id=\"wd-demo-email\" type=\"email\" autocomplete=\"email\" placeholder=\"you@example.com\"><span class=\"wd-help\">Use a real form endpoint before collecting submissions.</span></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-COMP-004",
+      "name": "Profile card",
+      "type": "component",
+      "group": "content",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive"
+      ],
+      "html": "<article class=\"wd-card\"><div class=\"wd-profile\"><span class=\"wd-avatar\" aria-hidden=\"true\">JD</span><div><strong>Jordan Doe</strong><small>Designer · Example profile</small></div></div><p>Specializes in clear interfaces and thoughtful, accessible experiences.</p></article>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-COMP-005",
+      "name": "Disclosure",
+      "type": "component",
+      "group": "interactive",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "keyboard",
+        "native"
+      ],
+      "html": "<details class=\"wd-disclosure\"><summary>What is included?</summary><p>Structure, responsive styles and accessible native disclosure behavior. Replace copy before production.</p></details>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-BLOCK-001",
+      "name": "Service card",
+      "type": "block",
+      "group": "services",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive"
+      ],
+      "html": "<article class=\"wd-card wd-stack\"><span class=\"wd-icon\" aria-hidden=\"true\">✦</span><h3>Website strategy</h3><p>Clarify audiences, pages and the experience before development begins.</p><a class=\"wd-button\" href=\"#contact\">Explore service ↗</a></article>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-BLOCK-002",
+      "name": "Metric tile",
+      "type": "block",
+      "group": "data",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive",
+        "sample"
+      ],
+      "html": "<article class=\"wd-card\"><span class=\"wd-eyebrow\">Illustrative sample</span><div class=\"wd-metric\">24/7</div><p>Availability indicator — replace with evidence-backed operational data.</p></article>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-BLOCK-003",
+      "name": "Process step",
+      "type": "block",
+      "group": "process",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive"
+      ],
+      "html": "<div class=\"wd-grid wd-steps\"><article class=\"wd-card wd-step\"><h3>Discovery</h3><p>Align on the problem and outcomes.</p></article><article class=\"wd-card wd-step\"><h3>Design</h3><p>Make the system clear and testable.</p></article></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-SEC-001",
+      "name": "Split hero",
+      "type": "section",
+      "group": "hero",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive",
+        "layout"
+      ],
+      "html": "<section class=\"wd-section\"><div class=\"wd-container wd-hero\"><div class=\"wd-stack\"><span class=\"wd-eyebrow\">Independent creative studio</span><h2 class=\"wd-heading\">Good design.<br>Better business.</h2><p class=\"wd-lead\">Fast, accessible websites built around your customers and goals.</p><div class=\"wd-actions\"><a class=\"wd-button wd-button--primary\" href=\"#contact\">Start a project ↗</a><a class=\"wd-button\" href=\"#work\">View work</a></div></div><div class=\"wd-art\" aria-hidden=\"true\"><div class=\"wd-art-inner\">W.</div></div></div></section>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-SEC-002",
+      "name": "Services grid",
+      "type": "section",
+      "group": "services",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive"
+      ],
+      "html": "<section class=\"wd-section\"><div class=\"wd-container\"><div class=\"wd-section-head\"><div><span class=\"wd-eyebrow\">What we do</span><h2>Design that does the work</h2></div><p class=\"wd-lead\">Services adapted to your goals, not a fixed template.</p></div><div class=\"wd-grid\"><article class=\"wd-card\"><span class=\"wd-icon\" aria-hidden=\"true\">✦</span><h3>Experience design</h3><p>Flows, navigation and interface systems.</p></article><article class=\"wd-card\"><span class=\"wd-icon\" aria-hidden=\"true\">◇</span><h3>Development</h3><p>Responsive and maintainable websites.</p></article><article class=\"wd-card\"><span class=\"wd-icon\" aria-hidden=\"true\">◎</span><h3>Optimization</h3><p>Accessibility and performance audits.</p></article></div></div></section>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-SEC-003",
+      "name": "FAQ section",
+      "type": "section",
+      "group": "faq",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "keyboard",
+        "native"
+      ],
+      "html": "<section class=\"wd-section\"><div class=\"wd-container\"><div class=\"wd-section-head\"><div><span class=\"wd-eyebrow\">Questions</span><h2>Good things to know</h2></div></div><details class=\"wd-disclosure\"><summary>Can I change the colors?</summary><p>Yes. Semantic CSS variables let you switch between themes without rebuilding the layout.</p></details><details class=\"wd-disclosure\"><summary>Does it require JavaScript?</summary><p>No. Native details elements and ordinary links work without a framework.</p></details></div></section>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-SEC-004",
+      "name": "Final CTA",
+      "type": "section",
+      "group": "cta",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "responsive",
+        "sample"
+      ],
+      "html": "<section class=\"wd-section wd-section--accent\" id=\"contact\"><div class=\"wd-container wd-stack\"><span class=\"wd-eyebrow\">Your next project</span><h2 class=\"wd-heading\">Let's build something useful.</h2><p class=\"wd-lead\" style=\"color:inherit\">Start with a clear brief and a focused first milestone.</p><div class=\"wd-actions\"><a class=\"wd-button\" href=\"mailto:hello@example.com?subject=Project%20enquiry\">Email example ↗</a></div><p class=\"wd-preview-label\">Replace the placeholder address with your real contact method before publishing.</p></div></section>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-TPL-001",
+      "name": "Agency landing",
+      "type": "template",
+      "group": "full-page",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "full-page"
+      ],
+      "html": "<div class=\"wd-stack\"><div class=\"wd-card\"><h3>Agency landing template</h3><p>Full page with header, hero, services, process, FAQ, contact CTA and footer.</p><a class=\"wd-button wd-button--primary\" href=\"./templates/agency.html\" target=\"_blank\" rel=\"noopener\">Open full-page preview ↗</a></div></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-TPL-002",
+      "name": "Portfolio landing",
+      "type": "template",
+      "group": "full-page",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "full-page"
+      ],
+      "html": "<div class=\"wd-stack\"><div class=\"wd-card\"><h3>Portfolio landing template</h3><p>Minimal practitioner introduction, selected projects, capabilities and contact.</p><a class=\"wd-button wd-button--primary\" href=\"./templates/portfolio.html\" target=\"_blank\" rel=\"noopener\">Open full-page preview ↗</a></div></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-THEME-001",
+      "name": "Hardline",
+      "type": "theme",
+      "group": "tokens",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "theme"
+      ],
+      "html": "<div class=\"wd-stack\"><div class=\"wd-actions\"><span class=\"wd-badge\">Hardline</span><button class=\"wd-button wd-button--primary\" type=\"button\">Press to feel it ↘</button></div><p>Sharp corners, prominent edges and tactile pressed feedback.</p></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-THEME-002",
+      "name": "Studio",
+      "type": "theme",
+      "group": "tokens",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "theme"
+      ],
+      "html": "<div class=\"wd-stack\"><div class=\"wd-actions\"><span class=\"wd-badge\">Studio</span><button class=\"wd-button wd-button--primary\" type=\"button\">Press to feel it ↘</button></div><p>Refined, cool-toned, professional presentation.</p></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    },
+    {
+      "id": "WDT-THEME-003",
+      "name": "Calm",
+      "type": "theme",
+      "group": "tokens",
+      "status": "draft-demo",
+      "version": "0.1.0",
+      "stack": "html-css",
+      "features": [
+        "theme"
+      ],
+      "html": "<div class=\"wd-stack\"><div class=\"wd-actions\"><span class=\"wd-badge\">Calm</span><button class=\"wd-button wd-button--primary\" type=\"button\">Press to feel it ↘</button></div><p>Warm editorial rhythm with softly structured surfaces.</p></div>",
+      "css": "library/styles/library.css",
+      "provenance": "original-webdesigntoolkit",
+      "verified": false
+    }
+  ]
+}
