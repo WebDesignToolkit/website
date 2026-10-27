@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Generate a complete customizable multi-page website demo from one client brief using WebDesignToolkit components.">
+<title>Web Design Engine — WebDesignToolkit</title>
+<link rel="stylesheet" href="./assets/editor.css"></head>
+<body>
+<a class="skip" href="#editor">Skip to editor</a>
+<header class="topbar"><a class="brand" href="https://github.com/WebDesignToolkit" rel="noopener"><span class="mark">W.</span> WebDesignToolkit</a><span class="top-label">WEB DESIGN ENGINE <span class="version">v0.1 / DEMO</span></span><a class="top-source" href="https://github.com/WebDesignToolkit/web-design-engine">Source ↗</a></header>
+<main>
+<div class="intro"><div><p class="eyebrow">A BETTER WAY TO MAKE WEBSITE DEMOS</p><h1>From brief<br>to <mark>website.</mark></h1><p>One client brief. Four pages. Flexible components, themes and layouts. Preview first, export when ready.</p></div><div class="privacy"><strong><span aria-hidden="true">◈</span> LOCAL-FIRST</strong><p>Information stays inside your browser. Nothing is sent to an external service by this tool.</p></div></div>
+<div class="workbench" id="editor">
+<section class="editor-panel" aria-labelledby="editor-heading">
+<div class="panel-head"><div><span class="eyebrow">STEP 01 / CONFIGURE</span><h2 id="editor-heading">Website brief</h2></div><span class="pill">Editable</span></div>
+<div class="tabbar" role="group" aria-label="Editor tab"><button type="button" class="tab is-active" data-tab="brief" aria-pressed="true">Client brief</button><button type="button" class="tab" data-tab="theme" aria-pressed="false">Design</button><button type="button" class="tab" data-tab="pages" aria-pressed="false">Pages & sections</button></div>
+<div class="tabcontent" data-panel="brief">
+<div class="field"><label for="business-name">Business name</label><input id="business-name" data-biz="name" maxlength="80" placeholder="Example Studio"></div>
+<div class="field"><label for="industry">Industry / business type</label><input id="industry" data-biz="industry" list="industry-presets" maxlength="80" placeholder="e.g. Dental clinic"><datalist id="industry-presets"><option value="Creative studio"><option value="Local services"><option value="Consulting"><option value="Technology"><option value="Healthcare services"><option value="Education"><option value="Retail"></datalist></div>
+<div class="field"><label for="tagline">Main headline</label><input id="tagline" data-biz="tagline" maxlength="130"></div>
+<div class="field"><label for="summary">About the business</label><textarea id="summary" data-biz="summary" rows="4" maxlength="500"></textarea></div>
+<div class="field"><label for="services">Services <small>(one per line)</small></label><textarea id="services" data-list="services" rows="4"></textarea></div>
+<div class="field"><label for="benefits">Why work with us <small>(one per line)</small></label><textarea id="benefits" data-list="benefits" rows="3"></textarea></div>
+<div class="form-row"><div class="field"><label for="email">Contact email</label><input id="email" data-biz="email" type="email"></div><div class="field"><label for="location">Location</label><input id="location" data-biz="location"></div></div>
+<div class="field"><label for="phone">Contact phone (optional)</label><input id="phone" data-biz="phone" type="tel" autocomplete="tel"></div>
+<div class="field"><label for="cta">Primary action label</label><input id="cta" data-biz="cta"></div>
+</div>
+<div class="tabcontent" data-panel="theme" hidden>
+<p class="helper">Switch any theme, then customize semantic color tokens for all generated pages.</p>
+<div class="field"><label for="preset">Theme preset</label><select id="preset" data-design="preset"><option value="hardline">Hardline / tactile</option><option value="studio">Studio / refined</option><option value="calm">Calm / editorial</option></select></div>
+<div class="swatches"><div class="field"><label for="accent">Accent</label><input id="accent" data-color="accent" type="color"></div><div class="field"><label for="background">Background</label><input id="background" data-color="bg" type="color"></div><div class="field"><label for="ink">Text</label><input id="ink" data-color="ink" type="color"></div><div class="field"><label for="surface">Card surface</label><input id="surface" data-color="surface" type="color"></div></div>
+<div class="form-row"><div class="field"><label for="font">Typography</label><select id="font" data-design="font"><option value="system">Modern sans-serif</option><option value="serif">Editorial serif</option><option value="mono">Technical monospace</option></select></div><div class="field"><label for="density">Density</label><select id="density" data-design="density"><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="spacious">Spacious</option></select></div></div>
+<div class="field"><label for="radius">Corner radius <span id="radius-label"></span></label><input id="radius" data-design="radius" type="range" min="0" max="24" step="2"></div>
+<div class="field"><label class="check"><input id="shadow" data-design="shadow" type="checkbox"> Tactile card and button shadows</label></div>
+</div>
+<div class="tabcontent" data-panel="pages" hidden>
+<p class="helper">Select a page, then reorder or change its sections. Every section uses a stable Foundry component ID and a data-bound adapter.</p>
+<div class="field"><label for="compose-page">Editing page</label><select id="compose-page"><option value="index">Home</option><option value="about">About</option><option value="services">Services</option><option value="contact">Contact</option></select></div>
+<div id="section-list" class="section-list" aria-label="Page section order"></div>
+<div class="field"><label for="add-section">Add Foundry section</label><div class="add-section"><select id="add-section"></select><button id="add-section-button" type="button" class="small-btn">Add section +</button></div></div>
+<p class="helper">The current engine has 11 data-bound adapters. More of the 44 Foundry patterns can be added without changing the project format.</p>
+</div>
+<div class="editor-footer"><button type="button" id="reset" class="small-btn">Reset example</button><label class="small-btn import-btn" for="import-json">Import brief.json <input id="import-json" type="file" accept=".json,application/json" hidden></label><button type="button" id="save-json" class="small-btn">Save brief.json</button></div>
+</section>
+<section class="preview-panel" aria-labelledby="preview-heading">
+<div class="panel-head"><div><span class="eyebrow">STEP 02 / REVIEW</span><h2 id="preview-heading">Live preview</h2></div><span class="pill" id="preview-status" role="status">Preparing…</span></div>
+<div class="preview-toolbar"><div role="group" aria-label="Page preview"><button class="preview-page is-active" data-page="index" aria-pressed="true">Home</button><button class="preview-page" data-page="about" aria-pressed="false">About</button><button class="preview-page" data-page="services" aria-pressed="false">Services</button><button class="preview-page" data-page="contact" aria-pressed="false">Contact</button></div><div role="group" aria-label="Viewport"><button class="preview-width is-active" data-width="desktop" aria-pressed="true">Desktop</button><button class="preview-width" data-width="mobile" aria-pressed="false">Mobile</button></div></div>
+<div class="preview-shell"><div id="preview-frame" class="preview-frame desktop"><iframe id="site-frame" title="Generated website demo preview" sandbox="" referrerpolicy="no-referrer"></iframe></div></div>
+<div class="export"><div><strong>Four pages, one portable ZIP</strong><p>Static HTML + CSS + editable project JSON. No tracking, no sign-up, no framework dependency.</p></div><button type="button" class="export-btn" id="download-zip">Export website ZIP <span aria-hidden="true">↗</span></button></div>
+<p class="footer-note">Example site only. Forms are disabled. Review copyright, contact details, real claims and accessibility before client deployment.</p>
+</section>
+</div>
+</main><footer class="site-footer"><span>WebDesignToolkit · Web Design Engine MVP</span><span><a href="https://github.com/WebDesignToolkit/design-system">Component Foundry</a> · <a href="https://github.com/WebDesignToolkit/web-design-engine">Source</a></span></footer>
+<script type="module" src="./src/app.js"></script></body></html>
