@@ -1,5 +1,5 @@
 import {defaultProject,normalizeProject,PRESETS,PAGE_DEFS,ADAPTERS,makePreviewDocument,buildSite,zipFiles,VERSION} from "./engine.js";
-import {CATEGORIES,TEMPLATES,PALETTES,composeRecipe,categoryExample} from "./recipes.js";
+import {CATEGORIES,TEMPLATES,PALETTES,VISUAL_STYLES,CATEGORY_VISUALS,composeRecipe,categoryExample} from "./recipes.js";
 const $=id=>document.getElementById(id);
 let project=defaultProject(),page="index",compose="index",foundryCss="",ready=false;
 const setStatus=msg=>$("preview-status").textContent=msg;
@@ -18,11 +18,50 @@ function showPalette(){
  const preview=$("palette-preview");preview.replaceChildren();
  for(const k of colors){const swatch=document.createElement("span");swatch.style.backgroundColor=project.design[k];preview.append(swatch)}
 }
+function renderTemplateGallery(){
+ const gallery=$("template-gallery");gallery.replaceChildren();
+ for(const [key,template] of Object.entries(TEMPLATES)){
+  const button=document.createElement("button");
+  button.type="button";button.className="template-card";button.dataset.templateChoice=key;
+  const chosen=project.recipe.template===key;button.setAttribute("aria-pressed",String(chosen));
+  const miniature=document.createElement("span");miniature.className="template-mini template-mini--"+key;miniature.setAttribute("aria-hidden","true");
+  const bar=document.createElement("span");bar.className="template-mini-bar";
+  const hero=document.createElement("span");hero.className="template-mini-hero";
+  const lines=document.createElement("span");lines.className="template-mini-lines";
+  const dot=document.createElement("span");dot.className="template-mini-art";
+  const grids=document.createElement("span");grids.className="template-mini-grid";
+  miniature.append(bar,hero,lines,dot,grids);
+  const title=document.createElement("strong");title.textContent=template.label;
+  const subtitle=document.createElement("small");subtitle.textContent=template.description;
+  const tick=document.createElement("span");tick.className="template-card-select";tick.textContent=chosen?"Selected ✓":"Select layout ↗";
+  button.append(miniature,title,subtitle,tick);
+  button.addEventListener("click",()=>{
+    $("layout-template").value=key;
+    $("layout-template").dispatchEvent(new Event("change",{bubbles:true}));
+  });
+  gallery.append(button);
+ }
+}
+function renderVisualGallery(){
+ const gallery=$("visual-gallery");gallery.replaceChildren();
+ for(const [name,style] of Object.entries(VISUAL_STYLES)){
+  const btn=document.createElement("button");btn.type="button";btn.className="visual-card";
+  btn.dataset.visualChoice=name;btn.setAttribute("aria-pressed",String(project.media.style===name));
+  const thumb=document.createElement("span");thumb.className="visual-thumb visual-thumb--"+name;thumb.setAttribute("aria-hidden","true");
+  const label=document.createElement("strong");label.textContent=style.label;
+  btn.append(thumb,label);
+  btn.addEventListener("click",()=>{project.media.style=name;renderVisualGallery();renderFrame()});
+  gallery.append(btn);
+ }
+}
 function syncRecipeControls(){
  $("category").value=project.recipe.category;
  $("layout-template").value=project.recipe.template;
  $("template-info").textContent=TEMPLATES[project.recipe.template].description;
+ renderTemplateGallery();
  $("palette").value=project.design.palette||"custom";
+ renderVisualGallery();
+ $("hero-alt").value=project.media.alt||"";
  showPalette();
 }
 function syncInputs(){
@@ -88,6 +127,7 @@ $("category").addEventListener("change",e=>{
  project.recipe={category,template:"classic"};
  project.pages=composeRecipe(category,"classic");
  project.business.industry=CATEGORIES[category].industry;
+ if(!project.media.image)project.media.style=CATEGORY_VISUALS[category]||"shapes";
  page="index";compose="index";setPressed(".preview-page","page",page);
  syncInputs();setStatus("Category and layout changed; business details preserved");
 });
@@ -98,6 +138,27 @@ $("layout-template").addEventListener("change",e=>{
  project.pages=composeRecipe(project.recipe.category,template);
  page="index";compose="index";setPressed(".preview-page","page",page);
  syncInputs();setStatus("New four-page layout applied; business details preserved");
+});
+$("hero-alt").addEventListener("input",e=>{project.media.alt=e.target.value;renderFrame()});
+$("clear-hero").addEventListener("click",()=>{
+ project.media.image="";project.media.style="shapes";$("hero-file").value="";
+ renderVisualGallery();renderFrame();setStatus("Client photo removed");
+});
+$("hero-file").addEventListener("change",async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  if(!["image/png","image/jpeg","image/webp"].includes(file.type))throw Error("Use JPG, PNG or WebP only");
+  if(file.size>900_000)throw Error("Photo is too large; maximum 900 KB");
+  const data=await new Promise((resolve,reject)=>{
+   const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("Could not read image"));reader.readAsDataURL(file);
+  });
+  if(typeof data!=="string"||data.length>1_450_000||!/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error("Invalid image data");
+  project.media.image=data;project.media.style="photo";
+  if(!project.media.alt)project.media.alt="Uploaded business photograph";
+  $("hero-alt").value=project.media.alt;renderVisualGallery();renderFrame();
+  setStatus("Photo added locally; it will be embedded in the exported ZIP");
+ }catch(error){setStatus(error.message)}
+ finally{e.target.value=""}
 });
 $("example-content").addEventListener("click",()=>{
  const name=CATEGORIES[project.recipe.category].label;
@@ -168,7 +229,7 @@ $("save-json").addEventListener("click",()=>{
 });
 $("import-json").addEventListener("change",async e=>{
  const file=e.target.files?.[0];if(!file)return;
- if(file.size>256_000){setStatus("JSON too large (256 KB limit)");return}
+ if(file.size>1_600_000){setStatus("JSON too large (1.6 MB limit)");return}
  try{
   const parsed=JSON.parse(await file.text());
   if(parsed.schemaVersion!==1||!Array.isArray(parsed.pages))throw Error("Unknown project schema");
