@@ -18,6 +18,21 @@ export const TEMPLATES={
  showcase:{label:"Visual Showcase",description:"An editorial layout with featured work, visual storytelling and supporting sections.",icon:"◈"},
  conversion:{label:"Lead-focused",description:"A direct introduction, service highlights, proof-free trust and repeated calls to action.",icon:"↗"}
 };
+export const VISUAL_STYLES={
+ shapes:{label:"Bold Shapes",description:"Playful geometric artwork"},
+ editorial:{label:"Editorial Frame",description:"Layered art direction"},
+ blueprint:{label:"Structured Grid",description:"Architectural line work"},
+ photo:{label:"Client Photo",description:"Your uploaded image"}
+};
+export const CATEGORY_VISUALS={agency:"shapes",dental:"editorial",restaurant:"editorial",realestate:"blueprint",education:"blueprint",services:"shapes"};
+export const CATEGORY_STORIES={
+ agency:{services:"Creative capabilities",process:["Discover","Design","Build"],portfolio:"Selected ideas"},
+ dental:{services:"Care and consultations",process:["Explore options","Discuss your needs","Make an enquiry"],portfolio:"Clinic information"},
+ restaurant:{services:"Menus and experiences",process:["Explore the menu","Plan a visit","Contact the team"],portfolio:"Dining experiences"},
+ realestate:{services:"Property services",process:["Share your needs","Review options","Arrange a conversation"],portfolio:"Property examples"},
+ education:{services:"Learning programs",process:["Explore programs","Choose a path","Ask questions"],portfolio:"Learning opportunities"},
+ services:{services:"How we can help",process:["Describe the issue","Discuss a plan","Request a quote"],portfolio:"Service highlights"}
+};
 export const PALETTES={
  lime:{label:"Electric Lime",accent:"#D4FB57",bg:"#FBFAF6",surface:"#FFFFFF",ink:"#17191C"},
  ocean:{label:"Ocean Blue",accent:"#8CCAF5",bg:"#F1F7FB",surface:"#FFFFFF",ink:"#17314A"},
